@@ -4,6 +4,7 @@
 library(readr)
 library(tidyverse)
 library(circlize)
+library(ComplexHeatmap)
 
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
 # snp_anotado <- read_delim("SNP_data_DNA/vcf_SNP_DNA_L3vsRR.anno.mm10_multianno.txt", 

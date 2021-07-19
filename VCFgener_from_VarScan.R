@@ -4,11 +4,10 @@ library(tidyverse)
 
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/DATA/")
 
-#### PONEMOS EL NOMBRE DEL ARCHIVO QUE QUEREMOS GENERAR LOS VCF. <-- VARSCAN 
 
 # snp <- read_delim("SNP_data_DNA/Lacun3.Lacun3RR.snp.Somatic.hc", 
 #                   "\t", escape_double = FALSE, trim_ws = TRUE)
-saveRDS(snp,"../RESULTS/SNP_DNA/SNPstotales_DNA_L3vsRR.rds")
+#saveRDS(snp,"../RESULTS/SNP_DNA/SNPstotales_DNA_L3vsRR.rds")
 
 
 
@@ -56,6 +55,6 @@ names(vcf_file)[1:2] <- c("#CHROM","POS")
 ### GUARDAMOS EL ARCHIVO GENERADO: 
 
 ### PONEMOS LA RUTA DONDE QUEREMOS GUARDAR LOS SNP Y EL NOMBRE DEL ARCHIVO. 
-write_tsv(vcf_file,"VCF_files/vcf_SNP_DNA_L3vsRR.tsv")
+#write_tsv(vcf_file,"VCF_files/vcf_SNP_DNA_L3vsRR.tsv")
 
 

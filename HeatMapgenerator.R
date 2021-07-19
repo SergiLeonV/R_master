@@ -6,10 +6,10 @@ library("tidyverse")
 
 #### CARGAMOS LOS DATOS NECESARIOS. 
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
-sleuth_table <- readRDS("L3RRquantification_genemode_datoslimpios.rds")
-so <- readRDS("so_RRL3_genemode.rds")
-res_gse <- readRDS("resultados_categorias_L3RR.rds")
-gse <- readRDS("gsea_L3RR_allGO.rds")
+sleuth_table <- readRDS("RNA_quant/L3RRquantification_genemode_datoslimpios.rds")
+so <- readRDS("RNA_quant/so_RRL3_genemode.rds")
+res_gse <- readRDS("RNA_quant/resultados_categorias_L3RR.rds")
+gse <- readRDS("RNA_quant/gsea_L3RR_allGO.rds")
 
 #### BUSCAMOS TAMBIÉN LOS GENES DE DSBR-HRR Y HACEMOS EL HEATMAP DE LA CATEGORÍA. 
 ################# INTRODUCIR EL NOMBRE DE LA VIA ############3
