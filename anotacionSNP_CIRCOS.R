@@ -12,8 +12,8 @@ setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
 # saveRDS(snp_anotado, "/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/SNP_DNA/SNPanotados_DNA_L3vsRR.rds")
 
 #### COMPLETAR EL ARCHIVO QUE QUEREMOS CARGAR:
-snp_anotado <- readRDS("SNP_DNA/SNPanotados_DNA_L3vsRR.rds")
-snp <- readRDS("SNP_DNA/SNPstotales_DNA_L3vsRR.rds")
+snp_anotado <- readRDS("SNP_RNA/snp_anotados_RNA_L3vsRR.rds")
+snp <- readRDS("SNP_RNA/SNP_RNA_RRvsLACUN3.rds")
 
 
 ## barras con las localizaciones de las mutaciones: 
@@ -37,7 +37,7 @@ snp_nosinonimo <- snp_anotado_exonico %>%
 
 
 #### CARGAMOS LAS MUTACIONES QUE DEJAMOS FILTRADAS PARA VER AQUELLAS QUE COINCIDEN CON LAS QUE NOS INTERESAN A NOSOTROS: 
-snp_filtrado <- readRDS("SNP_DNA/SNP_DNA_L3vsRR_noanotados_filtrados.rds")
+snp_filtrado <- readRDS("SNP_RNA/snp_noanotados_filtrados_RNA_L3vsRR.rds")
 #write.xlsx(snp_nosinonimo, "/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/snp_nosinonimos.xlsx")
 prueba <- inner_join(x = snp_filtrado,y = snp_nosinonimo, by= c("position"="Start"))
 
@@ -64,6 +64,7 @@ lgd_bien <-Legend(at = "selected",
 
 lgd_total <- packLegend(lgd_exon, lgd_ns, lgd_bien)
 draw(lgd_total, x = unit(25, "mm"), y = unit(25, "mm"))
+title(main = "SNPs for RNA")
 
 ### VAMOS A GENERAR TAMBIÉN CON EL TOTAL DE MUTACIONES: 
 
