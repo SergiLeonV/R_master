@@ -16,17 +16,15 @@ module load VarScan/2.4.2-Java-1.8
 module load SAMtools/1.9-foss-2018b
 
 
-### ENFRENTAMOS UNICAMENTE EL GENOMA L3 VS. RR. 
+### ENFRENTAMOS UNICAMENTE EL GENOMA L3 VS. RR --> CALCULO DEL NUMERO DE SNP EN RR EN COMPARACION CON LAS L3. 
+
 java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3-bam/Lacun3.mpileup /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3RR.mpileup \
-/home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR -min-coverage 10 -min-var-freq 0.02 -somatic-p-value 0.05
-
-java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.snp
-java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.indel
-
+--output-snp /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.snp \
+--output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.inde \
+-min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1 
 
 
-
-
+# ### CARGAR ESTE PROGARAMA SI QUEREMOS ENFRENTAR L3, RR Y BM CONTRA BALB/C --> MEDIR LA CARGA MUTACIONAL DE L3 Y RR CONTRA EL PROPIO RATÓN. 
 
 # cd /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/
 # ref_folder=$(ls -d BALB*-*)
@@ -41,12 +39,10 @@ java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home
 # 	cd /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder
 # 	file=$(ls *.mpileup)
 # 	name_file=$(echo $file | awk -F '.' '{print $1}')
-
 # 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$ref_folder/$reference /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$file \
-# 	/home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file -min-coverage 10 -min-var-freq 0.02 -somatic-p-value 0.05
-
-# 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.snp
-# 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.indel
+# 	--output-snp /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.snp \
+# 	--output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.indel \
+# 	-min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1-min-coverage 10 -min-var-freq 0.1 -somatic-p-value 0.05 --output-vcf 1
 
 # done
 
