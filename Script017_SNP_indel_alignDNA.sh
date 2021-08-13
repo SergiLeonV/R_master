@@ -20,7 +20,7 @@ module load SAMtools/1.9-foss-2018b
 
 java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3-bam/Lacun3.mpileup /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3RR.mpileup \
 --output-snp /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.snp \
---output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.inde \
+--output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.indel \
 -min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1 
 
 
@@ -45,5 +45,7 @@ java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.
 # 	-min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1-min-coverage 10 -min-var-freq 0.1 -somatic-p-value 0.05 --output-vcf 1
 
 # done
+
+
 
 
