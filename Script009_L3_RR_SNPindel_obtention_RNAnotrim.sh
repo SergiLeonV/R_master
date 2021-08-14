@@ -19,6 +19,12 @@ module load SAMtools/1.9-foss-2018b
 ### TENGO QUE CAMBIAR Y HACERLO PARA LA RUTA DONDE TENGO LOS RSULTADOS ACTUALES. INTENTAR MODIFICAR PARA QUE SEA CON LOS .BAM DE LOS ARCHIVOS TRIMADOS. 
 
 java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.1/Proj01/results/alignments/L3-1/L3-1.mpileup /home/sleon.1/Proj01/results/alignments/L3-RR-1/L3-RR-1.mpileup \
---output-snp /home/sleon.1/Proj01/results/alignments/L3-RR-1/Lacun3.Lacun3RR.snp \
---output-indel /home/sleon.1/Proj01/results/alignments/L3-RR-1/Lacun3.Lacun3RR.indel \
+--output-snp /home/sleon.1/Proj01/results/alignments/L3-RR-1/RNA_Lacun3.Lacun3RR.snp \
+--output-indel /home/sleon.1/Proj01/results/alignments/L3-RR-1/RNA_Lacun3.Lacun3RR.indel \
 -min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1
+
+java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/results/alignments/L3-RR-1/RNA_Lacun3.Lacun3RR.snp.vcf
+java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/results/alignments/L3-RR-1/RNA_Lacun3.Lacun3RR.indel.vcf
+
+
+
