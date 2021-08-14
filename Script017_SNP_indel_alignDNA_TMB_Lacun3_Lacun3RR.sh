@@ -23,6 +23,9 @@ java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.
 --output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.indel \
 -min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1 
 
+java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.snp.vcf
+java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/Lacun3RR-bam/Lacun3.Lacun3RR.indel.vcf
+
 
 
 
