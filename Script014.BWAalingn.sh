@@ -25,10 +25,10 @@ for file in $FILES
 do
 file_2=$(echo $file | sed 's/_1/_2/g')
 final_name=$(echo $file | awk -F '_' '{print $3}')
-echo $file
-echo $file_2
-echo $final_name
-done
+# echo $file
+# echo $file_2
+# echo $final_name
+# done
 
 
 bwa mem /home/sleon.1/Proj01/TFM/data/BWA_index/GRCm39.genome_BWA_idx \
