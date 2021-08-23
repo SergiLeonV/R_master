@@ -15,17 +15,32 @@ library("EnhancedVolcano")
 library("pheatmap")
 
 
-### VAMOS A EJECUTAR TODO EN GENE MODE: 
+### VAMOS A EJECUTAR TODO EN GENE MODE
+
+## Nos localizamos en la carpeta de interés:
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
 sleuth_table <- readRDS("RNA_quant/L3RRquantification_genemode.rds")
 so <- readRDS("RNA_quant/so_RRL3_genemode.rds")
 gsea_L3RR_allGO <- readRDS(file = "RNA_quant/gsea_L3RR_allGO.rds")
 res_gse <- readRDS("RNA_quant/resultados_categorias_L3RR.rds")
-#sleuth_table <- separate(sleuth_table,target_id,into = c("kk","kk2","kk3","kk4","kk5","gene_name"),sep = "\\|")
 
-# gencode_vM27_annotation_gtf <- read_delim("~/Desktop/TFM/R_MASTER/gencode.vM27.annotation.gtf", 
-#                                       "\t", escape_double = FALSE, col_names = FALSE, 
-#                                       trim_ws = TRUE, skip = 5)
+########################
+#### COMPROBAMOS LA REPRESENTACIÓN DEL SO OBJECT. 
+### comprobamos la máxima dimensión de la variación; 
+plot_pca(obj = so, units = 'tpm', color_by = 'cond')
+
+#### VAMOS A ESTUDIAR LA IMPORTANCIA DE CADA UNA DE LAS COMPONENTES.
+
+datos_pca <- so$obs_norm_filt
+kk <- pivot_wider(data = datos_pca, id_cols = target_id, names_from = sample, values_from = tpm)
+kk_bien <- kk[,2:7]
+rownames(kk_bien) <- kk$target_id
+res.pca <- prcomp(kk_bien,scale=TRUE)
+fviz_eig(res.pca)
+
+
+
+#######################
 
 #### MANIPULAMOS LA TABLA PARA GUARDAR LOS NOMBRES Y LOS ENTREZ DE MANERA CORRECTA: 
 sleuth_table$entrez <- mapIds(x = org.Mm.eg.db, 
@@ -33,25 +48,22 @@ sleuth_table$entrez <- mapIds(x = org.Mm.eg.db,
                               column= "ENTREZID",
                               keytype = "ENSEMBL")
 
-#sleuth_table$entrez[195] <- " 3014" ## INTRODUCIMOS ESTE ENTREZ PARA TENERLO EN CUENTA. 
-borrar <- complete.cases(sleuth_table) ### BORRAMOS TODAS LAS FILAS EN LAS QUE APARECEN NA. 
+### BORRAMOS TODAS LAS FILAS EN LAS QUE APARECEN NA. 
+borrar <- complete.cases(sleuth_table) 
+sleuth_table <- sleuth_table[borrar,] 
 
-sleuth_table <- sleuth_table[borrar,] ############ HASTA AQUI QUITAMOS TODOS LOS NA. TENEMOS QUE SEGUIR ELIMINANDO LOS REPETIDOS. 
+### TENEMOS QUE SEGUIR ELIMINANDO LOS REPETIDOS. 
 sleuth_table <- sleuth_table[!duplicated(sleuth_table$entrez),]
 
 #saveRDS(sleuth_table, "L3RRquantification_genemode_datoslimpios.rds")
-
-#sleuth_table <- sleuth_table %>% 
- # select(-(kk:kk5))
-#### GENERAMOS UN VOLCANO PLOT QUE NOS PERMITE VER FACILMETNE LOS GENES DIFERENCIALMEBTE EXPRESADOS: 
 
 ##########################
 ### USAMOS EL PAQUETE ENHANCEDVOLCANO. 
 EnhancedVolcano(toptable = sleuth_table,
                 lab = sleuth_table$ext_gene,
-                selectLab = c("Ppef1","Mdm2", "Klhl22"),
+                selectLab = c("Ppef1","Mdm2", "Klhl22","Flnc"),
                 x = "b",
-                y="qval",pointSize = 1.5,colAlpha = 0.2,
+                y="qval",pointSize = 1.5,colAlpha = 0.4,
                 labFace = "bold",
                 col = c("aquamarine1","grey65","palegreen2","deeppink1"),
                 drawConnectors = TRUE,
@@ -59,11 +71,11 @@ EnhancedVolcano(toptable = sleuth_table,
                 labSize = 5)
 
 #### UNA VEZ QUE GENERAMOS LA TABLA DE MANERA CORRECTA YA PASAMOS A HACER TODO EL ANALISIS GSEA: 
-
 gene_list = sleuth_table$b
 names(gene_list) = sleuth_table$entrez
 gene_list = sort(gene_list, decreasing = TRUE)
 
+### Seleccionamos el organismo:
 organismo <- org.Mm.eg.db
 
 ### AHORA YA COMENZAMSO EL ANÁLISIS DE GSEA: 
@@ -87,6 +99,16 @@ dotplot(gsea_L3RR_allGO,x='Count' ,color="p.adjust", showCategory=30)
 # cnetplot(gse2,foldChange = gene_list, node_label = "category", showCategory = 10)
 # ridgeplot(gsea_L3RR_allGO)
 
+#### VAMOS A GENERAR EL GSEA PARA BP: 
+# gse_cc <- gseGO(geneList = gene_list,
+#              ont = "CC",
+#              OrgDb = organismo,
+#              pvalueCutoff = 0.01,
+#              pAdjustMethod = "BH",
+#              by = "fgsea")
+# saveRDS(gse_cc,"../RESULTS/gsea_cc.rds")
+
+#### SELECCIONAMOS CATEGORÍAS DE GO PARA GENERAR LOS GSEA:
 dna_repair <- which(res_gse$Description == "DNA repair")
 hom_repa <- which(res_gse$Description == "double-strand break repair via homologous recombination")
 dsbreak <- which(res_gse$Description == "double-strand break repair")
@@ -100,7 +122,6 @@ gsea_nes <- res_gse %>%
   select(Description, NES, p.adjust)
 
 #### BUSCAMOS LOS KEGG PATHWAYS. 
-
 kegg_org <- "mmu"
 kegg <- gseKEGG(geneList = gene_list,
                 organism = kegg_org,
@@ -110,21 +131,14 @@ kegg <- gseKEGG(geneList = gene_list,
 
 kegg2 <- setReadable(x = kegg,OrgDb = organismo,keyType = "ENTREZID")
 
-# cnetplot(kegg2,foldChange = gene_list,layout = "kk")
-# gseaplot(kegg,geneSetID = 3,title = kegg@result$Description[which()])
-
+### EXTRAEMOS ALGUN PATHWAT DE KEGG QUE PUEDE SER INTERESANTE:
 # dme <- pathview(gene.data=gene_list,
 #                 pathway.id="mmu03030",
 #                 species = kegg_org)
-
-hom_recomb <- pathview(gene.data=gene_list,
-                 pathway.id=kegg@result$ID[which(kegg@result$Description == "Homologous recombination")],
-                 species = kegg_org)
-
-cell_cycle <- pathview(gene.data=gene_list,
-                pathway.id=kegg@result$ID[which(kegg@result$Description == "Cell cycle")],
-                species = kegg_org)
-##################################################
-#### COMPROBAMOS LA REPRESENTACIÓN DEL SO OBJECT. 
-### comprobamos la máxima dimensión de la variación; 
-plot_pca(obj = so, units = 'est_counts', color_by = 'cond')
+# hom_recomb <- pathview(gene.data=gene_list,
+#                  pathway.id=kegg@result$ID[which(kegg@result$Description == "Homologous recombination")],
+#                  species = kegg_org)
+# 
+# cell_cycle <- pathview(gene.data=gene_list,
+#                 pathway.id=kegg@result$ID[which(kegg@result$Description == "Cell cycle")],
+#                 species = kegg_org)

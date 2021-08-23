@@ -4,6 +4,7 @@
 library("pheatmap")
 library("tidyverse")
 
+
 #### CARGAMOS LOS DATOS NECESARIOS. 
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
 sleuth_table <- readRDS("RNA_quant/L3RRquantification_genemode_datoslimpios.rds")
@@ -11,10 +12,10 @@ so <- readRDS("RNA_quant/so_RRL3_genemode.rds")
 res_gse <- readRDS("RNA_quant/resultados_categorias_L3RR.rds")
 gse <- readRDS("RNA_quant/gsea_L3RR_allGO.rds")
 
-#### BUSCAMOS TAMBIÉN LOS GENES DE DSBR-HRR Y HACEMOS EL HEATMAP DE LA CATEGORÍA. 
-################# INTRODUCIR EL NOMBRE DE LA VIA ############3
-num_nombre <- which(res_gse$Description=="kinetochore")
-###########################
+################# INTRODUCIR EL NOMBRE DE LA VIA (categoría GO) ################
+num_nombre <- which(res_gse$Description=="negative regulation of chromosome separation")
+################################################################################
+
 kkhrr <- res_gse[num_nombre,]
 genes_hrr <- kkhrr %>% dplyr::select(core_enrichment)
 kkhrr <- genes_hrr[1,1]
@@ -58,4 +59,10 @@ so_hrr3 <- so_hrr2 %>%
 
 so_matriz <- as.matrix(so_hrr3)
 row.names(so_matriz) <- guardar_nombres[,2]
-pheatmap(so_matriz, main = res_gse$Description[num_nombre])
+dibujar <- 40
+if (dim(so_matriz)[1] > dibujar) {
+  pheatmap(so_matriz[1:dibujar,], main = res_gse$Description[num_nombre])
+} else {
+  pheatmap(so_matriz, main = res_gse$Description[num_nombre]) 
+}
+
