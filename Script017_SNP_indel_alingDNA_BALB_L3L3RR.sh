@@ -29,18 +29,19 @@ do
 	cd /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder
 	file=$(ls *.mpileup)
 	name_file=$(echo $file | awk -F '.' '{print $1}')
-	# echo $file
-	# echo $name_file
-	# echo $name_ref
-	# echo $reference
-	# echo $folder
+	echo $file
+	echo $name_file
+	echo $name_ref
+	echo $reference
+	echo $folder
+done
 	
 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar somatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$ref_folder/$reference /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$file \
 	--output-snp /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.snp \
 	--output-indel /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.indel \
 	-min-coverage 3 -min-var-freq 0.1 -somatic-p-value 0.1 --output-vcf 1
 
-	### GENERAMOS TODOS LOS ARCHIVOS PARA SELECCIONAR UNICAMENTE AQUELLOS SOMATICOS: 
+	### GENERAMOS TODOS LOS ARCHIVOS CON LOS DISTINTOS FILTROS:
 
 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.snp.vcf
 	java -jar /home/sleon.1/Software/varscan/VarScan.v2.3.9.jar processSomatic /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas/$folder/$name_ref.$name_file.indel.vcf

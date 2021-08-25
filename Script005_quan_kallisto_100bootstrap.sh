@@ -28,7 +28,7 @@ do
 #   echo $final_output
 # done
 
-  kallisto quant -i //home/sleon.1/Proj01/TFM/data/kallisto_index/mus_musculus/transcriptome.idx -o /home/sleon.1/Proj01/TFM/Raw_data/RNA/RNAseq_kallisto_quantification/$final_output \
+  kallisto quant -i /home/sleon.1/Proj01/TFM/data/kallisto_index/mus_musculus/transcriptome.idx -o /home/sleon.1/Proj01/TFM/Raw_data/RNA/RNAseq_kallisto_quantification/$final_output \
    -b 100 /home/sleon.1/Proj01/TFM/Raw_data/RNA/trimmedRNA_L3RR/paired/$file /home/sleon.1/Proj01/TFM/Raw_data/RNA/trimmedRNA_L3RR/paired/$input_2
 
 done

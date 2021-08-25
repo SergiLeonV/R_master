@@ -16,20 +16,6 @@ module load VarScan/2.4.2-Java-1.8
 # Cargamos también samtools, una herramienta que usamos en el procedimiento: 
 module load SAMtools/1.9-foss-2018b
 
-### Vamos a generar un mpileup que enfrente ya las dos condiciones: 
-
-## TENEMOS QUE IR A LAS CARPETAS QUE SE VAN A GENERAR EN ALINGMENTS Y COGER LOS BAM DE LA CONDICION NORMAL CON LA TUMORAL
-## TAMBIÉN PODEMOS ENFRENTAR TODAS CONTRA EL RATÓN ORIGINAL --> ¿LO MÁS INTERESANTE?
-
-#### TODO ESTO ES PARA COMPARAR LAS 6 SECUENCIAS CON LAS LACUN3. 
-#cd /home/sleon.1/Proj01/results/alignments/Lacun3
-# reference=$(ls *.bam)
-# normal_name=$(echo $reference | awk -F 'A' '{print $1}')
-# cd ..
-# FILES=$(ls -d *-*)
-# echo $reference
-# echo $normal_name ### SOLO LAS CARPETAS DIFERENTES A LA LACUN3. 
-
 #### VAMOS A GENERAR AHORA UN SCRIPT PARA GENERAR TODOS LOS MPILEUP: 
 
 cd /home/sleon.1/Proj01/TFM/Raw_data/DNA/DNA_PE_alineadas

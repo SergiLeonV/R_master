@@ -35,7 +35,7 @@ for file in $FILES
 do	
 	#cd /home/sleon.1/Proj01/results/FastQC_analysis/
 	#quality=$(echo $file | sed 's/\./_/g')c.zip
-	fastqc -o /home/sleon.1/Proj01/TFM/RNA/FASTQC_analysis/no_trim /home/sleon.1/Proj01/TFM/Raw_data/RNA/$file
+	fastqc -o /home/sleon.1/Proj01/TFM/Raw_data/RNA/FASTQC_analysis/no_trim /home/sleon.1/Proj01/TFM/Raw_data/RNA/$file
 
 	#unzip $quality
 	#rm -r $quality

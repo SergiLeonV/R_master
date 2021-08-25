@@ -1,10 +1,10 @@
 #!/bin/bash
 ## Initial SBATCH commands
-#SBATCH --job-name=varscan.sh
+#SBATCH --job-name=mpile_notrim.sh
 #SBATCH --mail-type=END
 #SBATCH --mail-user=sleon.1@alumni.unav.es
 #SBATCH --time=23:59:00
-#SBATCH --output=mpileup.log
+#SBATCH --output=mpileup_RNA_notrim.log
 #SBATCH --mem=100G
 #SBATCH -p short
 
@@ -18,26 +18,14 @@ module load SAMtools/1.9-foss-2018b
 
 ### Vamos a generar un mpileup que enfrente ya las dos condiciones: 
 
-## TENEMOS QUE IR A LAS CARPETAS QUE SE VAN A GENERAR EN ALINGMENTS Y COGER LOS BAM DE LA CONDICION NORMAL CON LA TUMORAL
-## TAMBIÉN PODEMOS ENFRENTAR TODAS CONTRA EL RATÓN ORIGINAL --> ¿LO MÁS INTERESANTE?
-
-#### TODO ESTO ES PARA COMPARAR LAS 6 SECUENCIAS CON LAS LACUN3. 
-#cd /home/sleon.1/Proj01/results/alignments/Lacun3
-# reference=$(ls *.bam)
-# normal_name=$(echo $reference | awk -F 'A' '{print $1}')
-# cd ..
-# FILES=$(ls -d *-*)
-# echo $reference
-# echo $normal_name ### SOLO LAS CARPETAS DIFERENTES A LA LACUN3. 
-
 #### VAMOS A GENERAR AHORA UN SCRIPT PARA GENERAR TODOS LOS MPILEUP: 
 
-cd /home/sleon.1/Proj01/TFM/Raw_data/RNA/RNA_PE_alineadas
-FILES=$(ls -d trim*)
+cd /home/sleon.1/Proj01/results/alignments/
+FILES=$(ls -d L3*)
 
 for file in $FILES
 do
-	cd /home/sleon.1/Proj01/TFM/Raw_data/RNA/RNA_PE_alineadas/$file
+	cd /home/sleon.1/Proj01/results/alignments/$file
 	reference=$(ls *.bam)
 	#out_name=$(echo $reference | awk -F 'A' '{print $1}')
 	#output=$out_name\.$file ### CAMBIAR AQUI LA REFERENCIA Y VER SI SE GENERAN BIEN LAS VARAIBLES. 
@@ -47,7 +35,7 @@ do
 #done
 
 samtools mpileup -B -q 1 -f /home/sleon.1/Proj01/TFM/data/STAR_index/GRCm39.genome.fa \
-		/home/sleon.1/Proj01/TFM/Raw_data/RNA/RNA_PE_alineadas/$file/$reference > $file.mpileup
+		/home/sleon.1/Proj01/results/alignments/$file > $file.mpileup
 done
 
 ### EJEMPLO CON SOLO UN ARCHIVO .BAM
