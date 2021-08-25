@@ -13,20 +13,25 @@ library("DOSE")
 library("xlsx")
 library("EnhancedVolcano")
 library("pheatmap")
+library("factoextra")
 
 
 ### VAMOS A EJECUTAR TODO EN GENE MODE
 
 ## Nos localizamos en la carpeta de interés:
 setwd("/Users/sergioleon/Desktop/TFM/R_MASTER/RESULTS/")
+
+### Cargamos todos los documetnos que tenemos guardados:
+
 sleuth_table <- readRDS("RNA_quant/L3RRquantification_genemode.rds")
 so <- readRDS("RNA_quant/so_RRL3_genemode.rds")
 gsea_L3RR_allGO <- readRDS(file = "RNA_quant/gsea_L3RR_allGO.rds")
 res_gse <- readRDS("RNA_quant/resultados_categorias_L3RR.rds")
 
 ########################
-#### COMPROBAMOS LA REPRESENTACIÓN DEL SO OBJECT. 
+### COMPROBAMOS LA REPRESENTACIÓN DEL SO OBJECT. 
 ### comprobamos la máxima dimensión de la variación; 
+
 plot_pca(obj = so, units = 'tpm', color_by = 'cond')
 
 #### VAMOS A ESTUDIAR LA IMPORTANCIA DE CADA UNA DE LAS COMPONENTES.
@@ -37,8 +42,6 @@ kk_bien <- kk[,2:7]
 rownames(kk_bien) <- kk$target_id
 res.pca <- prcomp(kk_bien,scale=TRUE)
 fviz_eig(res.pca)
-
-
 
 #######################
 
@@ -61,7 +64,7 @@ sleuth_table <- sleuth_table[!duplicated(sleuth_table$entrez),]
 ### USAMOS EL PAQUETE ENHANCEDVOLCANO. 
 EnhancedVolcano(toptable = sleuth_table,
                 lab = sleuth_table$ext_gene,
-                selectLab = c("Ppef1","Mdm2", "Klhl22","Flnc"),
+                selectLab = c("Ppef1","Mdm2", "Klhl22"),
                 x = "b",
                 y="qval",pointSize = 1.5,colAlpha = 0.4,
                 labFace = "bold",
@@ -133,12 +136,13 @@ kegg2 <- setReadable(x = kegg,OrgDb = organismo,keyType = "ENTREZID")
 
 ### EXTRAEMOS ALGUN PATHWAT DE KEGG QUE PUEDE SER INTERESANTE:
 # dme <- pathview(gene.data=gene_list,
-#                 pathway.id="mmu03030",
-#                 species = kegg_org)
+#                  pathway.id="mmu03030",
+# species = kegg_org)
+
 # hom_recomb <- pathview(gene.data=gene_list,
 #                  pathway.id=kegg@result$ID[which(kegg@result$Description == "Homologous recombination")],
 #                  species = kegg_org)
-# 
+
 # cell_cycle <- pathview(gene.data=gene_list,
 #                 pathway.id=kegg@result$ID[which(kegg@result$Description == "Cell cycle")],
 #                 species = kegg_org)

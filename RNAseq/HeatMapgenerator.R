@@ -16,6 +16,9 @@ gse <- readRDS("RNA_quant/gsea_L3RR_allGO.rds")
 num_nombre <- which(res_gse$Description=="negative regulation of chromosome separation")
 ################################################################################
 
+
+### GENERAMOS EL PROGRAMA NECESARIO PARA HACER EL HEATMAP CON LOS GENES Y TITULO NECESARIO:
+
 kkhrr <- res_gse[num_nombre,]
 genes_hrr <- kkhrr %>% dplyr::select(core_enrichment)
 kkhrr <- genes_hrr[1,1]
